@@ -10,20 +10,27 @@ import MovieModal from '../MovieModal/MovieModal.tsx';
 import { fetchMovies } from '../../services/movieService.ts';
 import type { Movie } from '../../types/movie.ts';
 
-
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
-  const handleSearch = async (query: string) => {
+  const handleSearchAction = async (formData: FormData) => {
+    const query = formData.get("query") as string;
+    const trimmedQuery = query ? query.trim() : "";
+
+    if (!trimmedQuery) {
+      return; 
+    }
+
     setMovies([]);
     setError(false);
     setLoading(true);
 
     try {
-      const results = await fetchMovies(query);
+      const results = await fetchMovies(trimmedQuery);
+
       if (!results || results.length === 0) {
         toast('No movies found for your request.');
       } else {
@@ -49,7 +56,7 @@ export default function App() {
   return (
     <div className={css.container}>
       <Toaster position="top-right" />
-      <SearchBar onSubmit={handleSearch} />
+      <SearchBar action={handleSearchAction} />
       <main>
         {loading && <Loader />}
         {error && <ErrorMessage />}
