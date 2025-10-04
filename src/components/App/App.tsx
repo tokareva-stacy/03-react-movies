@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import css from './App.module.css';
 
 import toast, { Toaster } from 'react-hot-toast';
@@ -47,7 +47,7 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className={css.container}>
       <Toaster position="top-right" />
       <SearchBar onSubmit={handleSearch} />
       <main>
