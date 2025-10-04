@@ -1,0 +1,4 @@
+declare module "modern-normalize";
+
+/// <reference types="react" />
+/// <reference types="react-dom" />
